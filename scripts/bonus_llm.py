@@ -23,7 +23,7 @@ def main() -> int:
     con = connect()
     try:
         tickets = llm_label.live_tickets(con)
-        est = llm_label.estimate_tokens([t for _, t in tickets])
+        est = llm_label.estimate_tokens(tickets)
         print(f"=== bonus: LLM labelling of {len(tickets)} live tickets ===")
         print(f"  cost estimate before running: ~{est} tokens "
               f"= ${est / 1000 * llm_label.PRICE_PER_1K_TOKENS_USD:.4f} per full run")
@@ -31,6 +31,7 @@ def main() -> int:
         llm = llm_label.FakeLLM()
         llm_label.label_tickets(con, llm)
         first = llm.calls
+        measured = llm.tokens
         llm_label.label_tickets(con, llm)
         second = llm.calls - first
 
@@ -50,6 +51,8 @@ def main() -> int:
 
         checks = [
             ("first run labels every live ticket", first == len(tickets), f"{first} calls"),
+            ("cost estimate matches FakeLLM counted tokens", est == measured,
+             f"estimated {est}, counted {measured}"),
             ("re-run with same model + prompt makes 0 LLM calls", second == 0, f"{second} calls"),
             ("every Gold label is bug / billing / other", bad == 0, f"{bad} invalid row(s)"),
             ("off-schema answers go to llm_label_quarantine", n_q >= 1, f"{n_q} quarantined"),
