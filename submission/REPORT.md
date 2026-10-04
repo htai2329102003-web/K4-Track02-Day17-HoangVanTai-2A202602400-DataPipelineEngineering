@@ -7,7 +7,7 @@ Phần phân tích tối đa một trang, không tính output ở phần 5.
 
 **Repo:** https://github.com/htai2329102003-web/K4-Track02-Day17-HoangVanTai-2A202602400-DataPipelineEngineering
 
-**Commit bài nộp:** Chưa commit.
+**Commit bài nộp:** a046f6a
 
 **AI đã dùng và phạm vi hỗ trợ (hoặc không dùng):** Codex hỗ trợ đọc đề, sửa code và viết nháp.
 
